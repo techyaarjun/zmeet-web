@@ -1,0 +1,159 @@
+.zmeet-container {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url("/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .top-left-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .users-icon {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+  
+  .users-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 1);
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar-open {
+    left: 0;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-header h3 {
+    color: white;
+    margin: 0;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .users-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #666;
+    margin-right: 10px;
+  }
+  
+  .user-status.online {
+    background-color: rgb(100, 221, 100);
+  }
+  
+  h1 {
+    font-size: 4rem;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .title {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 18px;
+  }
+  
+  .status {
+    font-size: 16px;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position : absolute;
+    text-align: center;
+    top: 10px;
+  }
+  
+  
+  .file-share-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: auto; /* Push the button to the right */
+    transition: opacity 0.3s;
+  }
+  
+  .file-share-button:hover {
+    opacity: 0.8;
+  }
+  
+  .file-share-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  
+  .connected {
+    color: rgb(100, 221, 100);
+  }
+  
+  .connecting {
+    color: rgb(240, 240, 89);
+  }
+  
+  .m {
+    color: rgb(82, 149, 249);
+  }
