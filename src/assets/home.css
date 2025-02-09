@@ -90,6 +90,10 @@
     background-color: #666;
     margin-right: 10px;
   }
+
+  .user-name {
+    font-size: 12px;
+  }
   
   .user-status.online {
     background-color: rgb(100, 221, 100);
@@ -117,7 +121,7 @@
   }
   
   .status {
-    font-size: 16px;
+    font-size: 14px;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     position : absolute;

@@ -32,10 +32,14 @@
         <button class="close-button" @click="toggleSidebar">×</button>
       </div>
       <ul class="users-list">
-        <li v-for="user in connectedUsers" :key="user.id" class="user-item krona-one-light">
-          <span class="user-status" :class="{ online: user.online }"></span>
-          {{ user.name }}
-          <button v-if="user.online" class="file-share-button" @click="shareFile(user)">
+        <li
+          v-for="user in connectedUsers"
+          :key="user.id"
+          class="user-item krona-one-light"
+        >
+          <span class="user-status" :class="'online'"></span>
+          <span class="user-name">{{ user.name }}</span>
+          <button class="file-share-button" @click="shareFile(user)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -57,27 +61,77 @@
     </div>
 
     <h1 class="zmeet krona-one-regular">z<span class="m">m</span>eet</h1>
-    <p class="title krona-one-light">Connect, Share, Collaborate — Seamlessly.</p>
-    <p class="status krona-one-light">
-      Status ~ <span :class="statusClass">{{ status }}</span>
+    <p class="title krona-one-light">
+      Connect, Share, Collaborate — Seamlessly.
     </p>
+    <p class="status krona-one-light">
+      <span :class="statusClass">{{ status }}</span>
+    </p>
+    <div class="button-container">
+      <CustomButton :name="'Connnect'" @click="startConnection" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { Initialize } from "../../lib/library";
+import { v4 as uuidv4 } from "uuid";
+import CustomButton from "@/components/CustomButton.vue";
 
-const status = ref("Connected");
+const status = ref("waiting...");
 const statusClass = computed(() => {
-  return status.value === "Connected" ? "connected" : "connecting";
+  return status.value === "connected" ? "connected" : "connecting";
 });
 
+let zmeetManager = null;
 const isSidebarOpen = ref(false);
-const connectedUsers = ref([
-  { id: 1, name: "John Doe", online: true },
-  { id: 2, name: "Jane Smith", online: true },
-  { id: 4, name: "Bob Brown", online: true }
-]);
+const connectedUsers = ref([]);
+
+onMounted(() => {
+  setInterval(updateConnectedUsers, 2000);
+  checkConnection();
+});
+
+async function checkConnection() {
+  let connectionInterval = setInterval(() => {
+    if (zmeetManager) {
+      status.value = zmeetManager.connected() ? "connected" : "connecting...";
+      console.log(status.value);
+      if (status.value === "Connected") {
+        clearInterval(connectionInterval);
+      }
+    }
+  }, 3000);
+}
+
+async function updateConnectedUsers() {
+  if (zmeetManager) {
+    const newUsers = await zmeetManager.listAllUsers();
+    synchronizeConnectedUsers(newUsers);
+  }
+}
+
+function synchronizeConnectedUsers(newUsers) {
+  const newUserNames = newUsers.map((user) => user.name);
+  const oldUserNames = connectedUsers.value.map((user) => user.name);
+
+  newUsers.forEach((user) => {
+    if (!oldUserNames.includes(user.name)) {
+      connectedUsers.value.push(user);
+    }
+  });
+
+  connectedUsers.value = connectedUsers.value.filter((user) =>
+    newUserNames.includes(user.name)
+  );
+}
+
+const startConnection = () => {
+  let userID = uuidv4();
+  zmeetManager = Initialize(userID);
+  zmeetManager.start();
+};
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
@@ -86,5 +140,4 @@ const toggleSidebar = () => {
 const shareFile = (user) => {
   alert(`Sharing file with ${user.name}`);
 };
-
 </script>
